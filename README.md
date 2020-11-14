@@ -13,7 +13,7 @@
 
 - vendor/bin/phpunit
 
-## Bootcamp F5 Excercise
+## Bootcamp F5 Excercise 
 
 ### The Clinic
 

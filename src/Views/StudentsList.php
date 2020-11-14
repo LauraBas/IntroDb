@@ -9,6 +9,11 @@
                 <i class="fas fa-plus"></i>
             </button>
         </a>
+        <a href="?action=archived">
+            <button class="btn btn-primary">
+                Student Archived
+            </button>
+        </a>
         <table class="table table-light">
 
             <thead class="thead-light">

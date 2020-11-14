@@ -44,6 +44,10 @@ class StudentController
             $this->savedone($_GET["id"]);
             return;
         }
+        if (isset($_GET) && ($_GET["action"] == "archived")) {
+            $this->archived($_GET["id"]);
+            return;
+        }
 
         $this->index();
     }
@@ -147,6 +151,16 @@ class StudentController
         new View("ListDoneStudents", [
             "students" => $studentsList,
         ]);
-
     }
+
+        public function archived()
+        {
+            $studentsList = Student::allStudentDone();
+            new View("ListDoneStudents", [
+                "students" => $studentsList,
+            ]);
+
+        }
+
+    
 }
