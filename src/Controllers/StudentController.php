@@ -71,8 +71,10 @@ class StudentController
     {
         $newStudent = new Student($request["name"]);
         $newStudent->save();
+        //$student = Student::findLastStudent();
         $log = new Log("Create","Created a new student");
         $log->LogInFile();
+        
 
         $this->index();
     }

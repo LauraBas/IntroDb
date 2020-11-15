@@ -1,12 +1,13 @@
-namespace App\Controllers;
 <?php
+
+namespace App\Controllers;
 
 use App\Core\View;
 use App\Models\Student;
 use App\Logger\Log;
 use phpDocumentor\Reflection\Location;
 
-class StudentController
+class ApiController
 {
 
     public function __construct()
@@ -55,18 +56,18 @@ class StudentController
     public function index(): void
     {
         $studentsList = Student::all();
-        $studentsApi = [];
-        foreach ($studentsList  as $student)
-        {
-            $cardsArray =
-            [
-                'name'=> $student->getName(),
-                'id'=> $student->getId(),
-                'date'=> $student->getDate(),
-            ];
-            array_push($studentsApi,$cardsArray);
-        }
-         echo json_encode($studentApi);
+        // $studentsApi = [];
+        // foreach ($studentsList  as $student)
+        // {
+        //     $studentsArray =
+        //     [
+        //         'name'=> $student->getName(),
+        //         'id'=> $student->getId(),
+        //         'date'=> $student->getDate(),
+        //     ];
+        //     array_push($studentsApi,$studentsArray);
+        // }
+        // echo json_encode($studentApi);
 
         new View("StudentsList", [
             "students" => $studentsList,
@@ -84,8 +85,14 @@ class StudentController
         $newStudent->save();
         $log = new Log("Create","Created a new student");
         $log->LogInFile();
-
-        echo json_encode($newStudent);//pasarlo a array
+    //     $studentArray =
+    //     [
+    //         'name'=> $student->getName(),
+    //         'id'=> $student->getId(),
+    //         'date'=> $student->getDate(),
+    //     ];
+    
+    // echo json_encode($studentArray);
 
 
         $this->index();
@@ -112,11 +119,19 @@ class StudentController
         $studentToUpdate = Student::findById($id);
         $studentToUpdate->rename($request["name"]);
         $studentToUpdate->update();
-        $studentUpdated = Student::findById($id);
         $log = new Log("Update","Update a student", $id);
         $log->LogInFile();
+        //$studentUpdated = Student::findById($id);
 
-        echo json_encode($studentUpdated);// array
+        // $studentArray =
+        //     [
+        //         'name'=> $studentUpdated->getName(),
+        //         'id'=> $studentUpdated->getId(),
+        //         'date'=> $studentUpdated->getDate(),
+        //     ];
+        
+        // echo json_encode($studentArray);
+
 
         $this->index();
     }
@@ -135,17 +150,17 @@ class StudentController
         $log = new Log("Archive","Archive a student", $id);
         $log->LogInFile();
 
-        foreach ($studentsList  as $student)
-        {
-            $studentsArray =
-            [
-                'name'=> $student->getName(),
-                'id'=> $student->getId(),
-                'date'=> $student->getDate(),
-            ];
-            array_push($studentsApi, $studentsArray);
-        }
-        echo json_encode($studentsApi);
+        // foreach ($studentsList  as $student)
+        // {
+        //     $studentsArray =
+        //     [
+        //         'name'=> $student->getName(),
+        //         'id'=> $student->getId(),
+        //         'date'=> $student->getDate(),
+        //     ];
+        //     array_push($studentsApi, $studentsArray);
+        // }
+        // echo json_encode($studentsApi);
 
 
         new View("ListDoneStudents", [
