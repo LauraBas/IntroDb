@@ -39,4 +39,15 @@ class StudentTest extends TestCase
         $this->assertIsString($studentList[1]->getCreatedAt());
 
     }
+
+    public function test_return_update_student()
+    {
+        $this->setUp();
+        
+        $student =$this->db->mysql->query("INSERT INTO `students` (`name`) VALUES ('Andres')");
+        $this->db->mysql->query("UPDATE `students` SET `name` =  'Juan' WHERE `id` = 1");
+
+        $studentList = Student::all();
+        $this->assertEquals('Juan', $studentList[0]->getName());
+    }
 }
