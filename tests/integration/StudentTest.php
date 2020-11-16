@@ -27,16 +27,16 @@ class StudentTest extends TestCase
     
     public function test_return_student_list()
     {
-        $this->db->mysql->query("INSERT INTO `students` (`name`) VALUES ('Andres')");
-        $this->db->mysql->query("INSERT INTO `students` (`name`) VALUES ('Moni')");
+        $this->db->mysql->query("INSERT INTO `students` (`name`,`id`, `created_at`) VALUES ('Andres', '1', '2020-11-16 09:36:19')");
+        $this->db->mysql->query("INSERT INTO `students` (`name`,`id`, `created_at`) VALUES ('Moni', '2', '2020-11-16 09:36:19')");
 
         $studentList = Student::all();
 
         $this->assertEquals('Andres', $studentList[0]->getName());
-        $this->assertEquals(1, $studentList[0]->getId());
+        $this->assertEquals('1', $studentList[0]->getId());
         $this->assertIsString($studentList[0]->getCreatedAt());
         $this->assertEquals('Moni', $studentList[1]->getName());
-        $this->assertEquals(2, $studentList[1]->getId());
+        $this->assertIsString($studentList[1]->getId());
         $this->assertIsString($studentList[1]->getCreatedAt());
 
     }
@@ -45,8 +45,8 @@ class StudentTest extends TestCase
     {
         $this->setUp();
         
-        $this->db->mysql->query("INSERT INTO `students` (`name`) VALUES ('Andres')");
-        $this->db->mysql->query("UPDATE `students` SET `name` =  'Juan' WHERE `id` = 1");
+        $this->db->mysql->query("INSERT INTO `students` (`name`,`id`,`created_at`) VALUES ('Andres', '1','2020-11-16 09:36:19')");
+        $this->db->mysql->query("UPDATE `students` SET `name` =  'Juan' WHERE `id` = '1'");
 
         $studentList = Student::all();
         $this->assertEquals('Juan', $studentList[0]->getName());
@@ -56,9 +56,9 @@ class StudentTest extends TestCase
     {
         $this->setUp();
         
-        $this->db->mysql->query("INSERT INTO `students` (`name`) VALUES ('Andres')");
-        $this->db->mysql->query("INSERT INTO `students` (`name`) VALUES ('Moni')");
-        $this->db->mysql->query("UPDATE `students` SET `done` = true WHERE `id` = 1");
+        $this->db->mysql->query("INSERT INTO `students` (`name`,`id`,`created_at`) VALUES ('Andres', '1', '2020-11-16 09:36:19')");
+        $this->db->mysql->query("INSERT INTO `students` (`name`,`id`,`created_at`) VALUES ('Moni', '2', '2020-11-16 09:36:19')");
+        $this->db->mysql->query("UPDATE `students` SET `done` = true WHERE `id` = '1'");
 
         $studentDoneList = Student::allStudentDone();
         $studentList = Student::all();
@@ -70,8 +70,8 @@ class StudentTest extends TestCase
     {
         $this->setUp();
         
-        $this->db->mysql->query("INSERT INTO `students` (`name`) VALUES ('Andres')");
-        $this->db->mysql->query("INSERT INTO `students` (`name`) VALUES ('Moni')");
+        $this->db->mysql->query("INSERT INTO `students` (`name`,`id`,`created_at`) VALUES ('Andres', '1', '2020-11-16 09:36:19')");
+        $this->db->mysql->query("INSERT INTO `students` (`name`,`id`,`created_at`) VALUES ('Moni', '2', '2020-11-16 09:36:19')");
         $this->db->mysql->query("DELETE FROM `students` WHERE `students`.`id` = 1");
         
         $studentList = Student::all();

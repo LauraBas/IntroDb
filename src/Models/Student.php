@@ -8,17 +8,16 @@ use App\Database;
 
 class Student
 {
-    private ?int $id;
+   
     private string $name;
-    private ?string $created_at;
     private $database;
     private $table = "students";
 
-    public function __construct(string $name = '', int $id = null, string $created_at = null)
+    public function __construct(string $name = '')
     {
         $this->name = $name;
-        $this->id = $id;
-        $this->created_at = $created_at;
+        $this->id = uniqid();
+        $this->created_at = date("Y-m-d H:i:s");
 
         if (!$this->database) {
             $this->database = new Database();
@@ -34,10 +33,19 @@ class Student
     {
         return $this->id;
     }
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
 
     public function getCreatedAt()
     {
         return $this->created_at;
+    }
+
+    public function setCreatedAt($created_at)
+    {
+        $this->created_at = $created_at;
     }
 
     public function rename($name)
@@ -47,7 +55,7 @@ class Student
 
     public function save(): void
     {
-        $this->database->mysql->query("INSERT INTO `{$this->table}` (`name`) VALUES ('$this->name');");
+        $this->database->mysql->query("INSERT INTO `{$this->table}` (`name`, `id`, `created_at`) VALUES ('{$this->name}', '{$this->id}', '{$this->created_at}');");
     }
 
     public static function all()
@@ -57,17 +65,20 @@ class Student
         $studentsArray = $query->fetchAll();
         $studentList = [];
         foreach ($studentsArray as $student) {
-            $studentItem = new self($student["name"], $student["id"], $student["created_at"]);
+            $studentItem = new self($student["name"]);
+            $studentItem->setId($student["id"]);
+            $studentItem->setCreatedAt($student["created_at"]);
             array_push($studentList, $studentItem);
         }
 
         return $studentList;
     }
 
-    public function deleteById($id)
+    public static function completeStudent()
     {
-        $query = $this->database->mysql->query("DELETE FROM `students` WHERE `students`.`id` = {$id}");
+
     }
+
 
     public function delete()
     {
@@ -80,21 +91,20 @@ class Student
         $query = $database->mysql->query("SELECT * FROM `students` WHERE `id` = {$id}");
         $result = $query->fetchAll();
 
-        return new self($result[0]["name"], $result[0]["id"], $result[0]["created_at"]);
-    }
-    public static function findLastStudent(): Student
-    {
-        $database = new Database();
-        $query = $database->mysql->query("SELECT * FROM `students` WHERE `id` = (SELECT max(id)");
-        $result = $query->fetchAll();
+        $student = new self($result[0]["name"]);
+        $student->setId($student["id"]);
+        $student->setCreatedAt($student["created_at"]);
+        return $student;
 
-        return new self($result[0]["name"], $result[0]["id"], $result[0]["created_at"]);
     }
+    // public static function findLastStudent(): Student
+    // {
+    //     $database = new Database();
+    //     $query = $database->mysql->query("SELECT * FROM `students` WHERE `id` = (SELECT max(id)");
+    //     $result = $query->fetchAll();
 
-    public function UpdateById($data, $id)
-    {
-        $this->database->mysql->query("UPDATE `students` SET `name` =  '{$data["name"]}' WHERE `id` = {$id}");
-    }
+    //     return new self($result[0]["name"], $result[0]["created_at"]);
+    // }
 
     public function Update()
     {
@@ -114,7 +124,9 @@ class Student
         $studentsArray = $query->fetchAll();
         $studentList = [];
         foreach ($studentsArray as $student) {
-            $studentItem = new self($student["name"], $student["id"], $student["created_at"]);
+            $studentItem = new self($student["name"]);
+            $studentItem->setId($student["id"]);
+            $studentItem->setCreatedAt($student["created_at"]);
             array_push($studentList, $studentItem);
         }
 
