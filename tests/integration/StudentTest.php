@@ -65,4 +65,16 @@ class StudentTest extends TestCase
         $this->assertEquals('Andres', $studentDoneList[0]->getName());
         $this->assertEquals('Moni', $studentList[0]->getName());
     }
+
+    public function test_return_delete_students()
+    {
+        $this->setUp();
+        
+        $this->db->mysql->query("INSERT INTO `students` (`name`) VALUES ('Andres')");
+        $this->db->mysql->query("INSERT INTO `students` (`name`) VALUES ('Moni')");
+        $this->db->mysql->query("DELETE FROM `students` WHERE `students`.`id` = 1");
+        
+        $studentList = Student::all();
+        $this->assertEquals('Moni', $studentList[0]->getName());
+    }
 }
