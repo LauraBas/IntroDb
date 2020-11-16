@@ -15,4 +15,12 @@ class StudentTest extends TestCase
 
 		$this->assertEquals("Juan", $student->getName());
 	}
+	public function test_return_student_data()
+	{
+        $student = new Student("Juan", 1, "16/11/20");
+
+		$this->assertEquals("Juan", $student->getName());
+		$this->assertEquals(1, $student->getId());
+		$this->assertEquals("16/11/20", $student->getCreatedAt());
+	}
 }
