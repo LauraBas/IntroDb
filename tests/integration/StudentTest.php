@@ -33,8 +33,10 @@ class StudentTest extends TestCase
 
         $this->assertEquals('Andres', $studentList[0]->getName());
         $this->assertEquals(1, $studentList[0]->getId());
+        $this->assertIsString($studentList[0]->getCreatedAt());
         $this->assertEquals('Moni', $studentList[1]->getName());
         $this->assertEquals(2, $studentList[1]->getId());
+        $this->assertIsString($studentList[1]->getCreatedAt());
 
     }
 }
