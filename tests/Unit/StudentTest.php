@@ -11,10 +11,10 @@ class StudentTest extends TestCase
 
 	public function test_return_student_data()
 	{
-        $student = new Student("Juan", "16/11/20");
+        $student = new Student("Juan");
 
 		$this->assertEquals("Juan", $student->getName());
 		$this->assertIsString($student->getId());
-		$this->assertEquals("16/11/20", $student->getCreatedAt());
+		$this->assertIsString($student->getCreatedAt());
 	}
 }

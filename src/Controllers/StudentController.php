@@ -98,7 +98,7 @@ class StudentController
     {
         $studentToUpdate = Student::findById($id);
         $studentToUpdate->rename($request["name"]);
-        $studentToUpdate->update();
+        $studentToUpdate->Update();
         $log = new Log("Update","Update a student", $id);
         $log->LogInFile();
 
