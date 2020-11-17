@@ -71,7 +71,7 @@ class StudentController
     {    
         $newStudent = new Student($request["name"]);
         $newStudent->save();
-        $log = new Log("Create","Created a new student");
+        $log = new Log("Create","Created a new student", $newStudent->getId());
         $log->LogInFile();
         
 

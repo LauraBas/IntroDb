@@ -28,6 +28,10 @@ class Student
     {
         return $this->name;
     }
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
 
     public function getId()
     {
@@ -66,17 +70,17 @@ class Student
         $studentList = [];
         foreach ($studentsArray as $student) {
             $studentItem = new self($student["name"]);
-            $studentItem->setId($student["id"]);
-            $studentItem->setCreatedAt($student["created_at"]);
+            $studentItem->completeStudent($student["id"], $student["created_at"]);
             array_push($studentList, $studentItem);
         }
 
         return $studentList;
     }
 
-    public static function completeStudent()
-    {
-
+    public function completeStudent(string $id, string $created_at) :void
+    {    
+        $this->id = $id;
+        $this->created_at = $created_at;                
     }
 
 
@@ -90,21 +94,11 @@ class Student
         $database = new Database();
         $query = $database->mysql->query("SELECT * FROM `students` WHERE `id` = {$id}");
         $result = $query->fetchAll();
-
         $student = new self($result[0]["name"]);
-        $student->setId($student["id"]);
-        $student->setCreatedAt($student["created_at"]);
+        $student->completeStudent($result[0]["id"],$result[0]["created_at"]);
         return $student;
 
     }
-    // public static function findLastStudent(): Student
-    // {
-    //     $database = new Database();
-    //     $query = $database->mysql->query("SELECT * FROM `students` WHERE `id` = (SELECT max(id)");
-    //     $result = $query->fetchAll();
-
-    //     return new self($result[0]["name"], $result[0]["created_at"]);
-    // }
 
     public function Update()
     {
@@ -125,8 +119,7 @@ class Student
         $studentList = [];
         foreach ($studentsArray as $student) {
             $studentItem = new self($student["name"]);
-            $studentItem->setId($student["id"]);
-            $studentItem->setCreatedAt($student["created_at"]);
+            $studentItem->completeStudent($student["id"], $student["created_at"]);
             array_push($studentList, $studentItem);
         }
 

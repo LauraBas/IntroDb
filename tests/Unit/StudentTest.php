@@ -17,4 +17,16 @@ class StudentTest extends TestCase
 		$this->assertIsString($student->getId());
 		$this->assertIsString($student->getCreatedAt());
 	}
+
+	public function test_return_saved_student()
+	{
+		$student = new Student("Juan");
+		$student->save();
+
+		$this->assertEquals("Juan", $student->getName());
+		$this->assertIsString($student->getId());
+		$this->assertIsString($student->getCreatedAt());
+
+		
+	}
 }
