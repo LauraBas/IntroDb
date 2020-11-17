@@ -41,7 +41,20 @@ class StudentTest extends TestCase
 
     }
 
-    public function test_return_update_student()
+    public function test_can_delete_student()
+    {
+        $this->setUp();
+        
+        $this->db->mysql->query("INSERT INTO `students` (`name`,`id`,`created_at`) VALUES ('Andres', '1','2020-11-16 09:36:19')");
+        $this->db->mysql->query("INSERT INTO `students` (`name`,`id`, `created_at`) VALUES ('Moni', '2', '2020-11-16 09:36:19')");
+        $this->db->mysql->query("DELETE FROM`students` WHERE `id` = '1'");
+
+        $studentList = Student::all();
+        $this->assertEquals('Moni', $studentList[0]->getName());
+    }
+    
+    
+    public function test_can_update_student()
     {
         $this->setUp();
         
@@ -52,7 +65,7 @@ class StudentTest extends TestCase
         $this->assertEquals('Juan', $studentList[0]->getName());
     }
 
-    public function test_return_archives_students()
+    public function test_return_archived_students()
     {
         $this->setUp();
         
@@ -66,15 +79,16 @@ class StudentTest extends TestCase
         $this->assertEquals('Moni', $studentList[0]->getName());
     }
 
-    public function test_return_delete_students()
+    public function test_can_find_students_by_id()
     {
         $this->setUp();
         
         $this->db->mysql->query("INSERT INTO `students` (`name`,`id`,`created_at`) VALUES ('Andres', '1', '2020-11-16 09:36:19')");
         $this->db->mysql->query("INSERT INTO `students` (`name`,`id`,`created_at`) VALUES ('Moni', '2', '2020-11-16 09:36:19')");
-        $this->db->mysql->query("DELETE FROM `students` WHERE `students`.`id` = 1");
+       
+        $student = Student::findById('2');
         
-        $studentList = Student::all();
-        $this->assertEquals('Moni', $studentList[0]->getName());
+        $this->assertEquals('Moni', $student->getName());
     }
+
 }
