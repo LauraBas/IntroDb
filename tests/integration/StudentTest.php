@@ -14,8 +14,7 @@ class StudentTest extends TestCase
     {
         $db = new Database();
         $db->mysql->query("DELETE FROM `students`");
-        $db->mysql->query("ALTER TABLE`students` AUTO_INCREMENT = 1");
-        $db->mysql->query("ALTER TABLE`students` AUTO_INCREMENT = 1");
+        $db->mysql->query("ALTER TABLE `students` AUTO_INCREMENT = 1");
         $this->db = $db;
 
     }
@@ -45,12 +44,16 @@ class StudentTest extends TestCase
     {
         $this->setUp();
         
-        $this->db->mysql->query("INSERT INTO `students` (`name`,`id`,`created_at`) VALUES ('Andres', '1','2020-11-16 09:36:19')");
-        $this->db->mysql->query("INSERT INTO `students` (`name`,`id`, `created_at`) VALUES ('Moni', '2', '2020-11-16 09:36:19')");
-        $this->db->mysql->query("DELETE FROM`students` WHERE `id` = '1'");
+        $this->db->mysql->query("INSERT INTO `students` (`name`,`id`,`created_at`) VALUES ('Andres', '5fb4bfe259e8a','2020-11-16 09:36:19')");
+        $this->db->mysql->query("INSERT INTO `students` (`name`,`id`, `created_at`) VALUES ('Moni', '5fb4bfe259e8b', '2020-11-16 09:36:19')");
+
+        $studentToDelete = Student::findById('5fb4bfe259e8b');
+        $studentToDelete->delete();
 
         $studentList = Student::all();
-        $this->assertEquals('Moni', $studentList[0]->getName());
+        $result = count($studentList);
+
+        $this->assertEquals(1, $result);
     }
     
     
@@ -59,10 +62,14 @@ class StudentTest extends TestCase
         $this->setUp();
         
         $this->db->mysql->query("INSERT INTO `students` (`name`,`id`,`created_at`) VALUES ('Andres', '1','2020-11-16 09:36:19')");
-        $this->db->mysql->query("UPDATE `students` SET `name` =  'Juan' WHERE `id` = '1'");
 
-        $studentList = Student::all();
-        $this->assertEquals('Juan', $studentList[0]->getName());
+        $studentToUpdate = Student::findById('1');
+        $studentToUpdate->rename('Juan');
+        $studentToUpdate->Update();
+                
+        $studentUpdated = Student::findById('1');
+
+        $this->assertEquals('Juan', $studentUpdated->getName());
     }
 
     public function test_return_archived_students()
@@ -71,7 +78,9 @@ class StudentTest extends TestCase
         
         $this->db->mysql->query("INSERT INTO `students` (`name`,`id`,`created_at`) VALUES ('Andres', '1', '2020-11-16 09:36:19')");
         $this->db->mysql->query("INSERT INTO `students` (`name`,`id`,`created_at`) VALUES ('Moni', '2', '2020-11-16 09:36:19')");
-        $this->db->mysql->query("UPDATE `students` SET `done` = true WHERE `id` = '1'");
+
+        $studentToArchive = Student::findById('1');
+        $studentToArchive->done();
 
         $studentDoneList = Student::allStudentDone();
         $studentList = Student::all();

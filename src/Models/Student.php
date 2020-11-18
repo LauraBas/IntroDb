@@ -24,7 +24,7 @@ class Student
         }
     }
 
-    public function getName()
+    public function getName() :string
     {
         return $this->name;
     }
@@ -33,7 +33,7 @@ class Student
         $this->name = $name;
     }
 
-    public function getId()
+    public function getId()  :string
     {
         return $this->id;
     }
@@ -42,7 +42,7 @@ class Student
         $this->id = $id;
     }
 
-    public function getCreatedAt()
+    public function getCreatedAt() :string
     {
         return $this->created_at;
     }
@@ -86,13 +86,13 @@ class Student
 
     public function delete()
     {
-        $query = $this->database->mysql->query("DELETE FROM `students` WHERE `students`.`id` = {$this->id}");
+        $query = $this->database->mysql->query("DELETE FROM `students` WHERE `students`.`id` = '{$this->id}'");
     }
 
     public static function findById($id): Student
     {
         $database = new Database();
-        $query = $database->mysql->query("SELECT * FROM `students` WHERE `id` = {$id}");
+        $query = $database->mysql->query("SELECT * FROM `students` WHERE `id` = '{$id}'");
         $result = $query->fetchAll();
         $student = new self($result[0]["name"]);
         $student->completeStudent($result[0]["id"],$result[0]["created_at"]);
@@ -102,12 +102,12 @@ class Student
 
     public function Update()
     {
-        $this->database->mysql->query("UPDATE `students` SET `name` =  '{$this->name}' WHERE `id` = {$this->id}");
+        $this->database->mysql->query("UPDATE `students` SET `name` =  '{$this->name}' WHERE `id` = '{$this->id}'");
     }
 
     public function done()
     {
-        $this->database->mysql->query("UPDATE `students` SET `done` = true WHERE `id` = {$this->id}");
+        $this->database->mysql->query("UPDATE `students` SET `done` = true WHERE `id` = '{$this->id}'");
         
     }
 
